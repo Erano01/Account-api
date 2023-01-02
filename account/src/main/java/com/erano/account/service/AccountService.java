@@ -5,6 +5,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.erano.account.dto.AccountDto;
@@ -17,7 +18,6 @@ import com.erano.account.repository.AccountRepository;
 
 @Service
 public class AccountService {
-	
 	/*IAccountService gi interfacelar oluşturma. çünkü bunun yapılmasının nedeni:
 	Spring içersindeki DI ve IoC ile bu interface a gerek kalmadan
 	bu injectionu yapabilmenizi sağlıyor. ama design pattern kullancaksan
@@ -26,24 +26,21 @@ public class AccountService {
 	
 	autowired yapma.çünkü immutable olmuyor o zaman aşağıdaki field
 	testibility da düşürüyor. Mockda buna göre yazmamız gerekiyor autowired ypaınca*/
-
 	private final AccountRepository accountRepository;
 	private final CustomerService customerService;
     private final AccountDtoConverter converter;
-    private final Clock clock;
-    
+
     private final TransactionService transactionService;
 	
-    public AccountService(AccountRepository accountRepository,
+    public AccountService(
+            AccountRepository accountRepository,
             CustomerService customerService,
-            AccountDtoConverter converter, 
-            Clock clock,
+            AccountDtoConverter converter,
             TransactionService transactionService) {
     	
     	this.accountRepository = accountRepository;
     	this.customerService = customerService;
     	this.converter = converter;
-    	this.clock = clock;
     	this.transactionService = transactionService;
     }
 	
@@ -66,13 +63,9 @@ public class AccountService {
         }
         return converter.convert(accountRepository.save(account));
     }
+
 	private LocalDateTime getLocalDateTimeNow() {
-        Instant instant = clock.instant();
-        return LocalDateTime.ofInstant(
-                instant,
-                Clock.systemDefaultZone().getZone());
+        return LocalDateTime.now();
     }
-	
-	
-	
+
 }

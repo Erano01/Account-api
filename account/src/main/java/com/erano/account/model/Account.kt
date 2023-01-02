@@ -9,12 +9,10 @@ import jakarta.persistence.*
 
 @Entity
 data class Account (
-		
-		@Id
-		@GeneratedValue(generator ="UUID")
-		@GenericGenerator(name="UUID",strategy="org.hibernate.id.UUIDGenerator")
-		
-		val id:String? = "",
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+		val id:Long? = null,
 		val balance: BigDecimal? = BigDecimal.ZERO,
 		val creationDate: LocalDateTime,
 
@@ -25,19 +23,21 @@ data class Account (
 		
 		@OneToMany(mappedBy="account",fetch = FetchType.LAZY)
 		val transaction:Set<Transaction> = HashSet(),
-		
-	
+
 		//kotlin nullable -> ?
 		//javada ki optional a denk geliyor.
 		
 ) {
 	constructor(customer: Customer, balance: BigDecimal, creationDate: LocalDateTime) : this(
-        "",
+        null,
         customer = customer,
         balance = balance,
         creationDate = creationDate
     )
-	//Account modelinde manytoone kullandıgımız için hashcode fonk
+
+
+
+    //Account modelinde manytoone kullandıgımız için hashcode fonk
 	//override etmeliyiz.
 	//db dan veriyi çekerken hibernate buradaki hashcode değerinin karşılaştırmasını yapıyor
 	override fun equals(other: Any?): Boolean {

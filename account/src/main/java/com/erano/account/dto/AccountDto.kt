@@ -13,4 +13,7 @@ data class AccountDto (
 		val customer:AccountCustomerDto?,
 		val transaction:Set<TransactionDto>?,
 ) {
+    constructor(Id: Long, Balance: BigDecimal, CreationDate: LocalDateTime, customer: AccountCustomerDto, collect: MutableSet<TransactionDto>) : this(id=null, balance= BigDecimal.ONE, creationDate= LocalDateTime.now(), customer, transaction= setOf()) {
+
+    }
 }

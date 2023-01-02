@@ -9,7 +9,7 @@ public class CustomerDtoConverter {
 	
 	public AccountCustomerDto convertToAccountCustomer(Customer from) {
 		if(from ==null) {
-			return new AccountCustomerDto("","","");
+			return new AccountCustomerDto(1L,"","");
 		}
 		
 		return new AccountCustomerDto(from.getId(),from.getName(),from.getSurname());

@@ -4,7 +4,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.erano.account.model.Account;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AccountDtoConverter {
 	
 	private final CustomerDtoConverter customerDtoConverter;
@@ -25,7 +27,7 @@ public class AccountDtoConverter {
 				customerDtoConverter.convertToAccountCustomer(from.getCustomer()),
 				Objects.requireNonNull(from.getTransaction())
 						.stream()
-						.map(t -> transactionDtoConverter.convert(t))
+						.map(transactionDtoConverter::convert)
 						.collect(Collectors.toSet())
 				);
 	}
